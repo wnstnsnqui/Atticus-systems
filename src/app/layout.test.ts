@@ -1,5 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 
+// next/font is a compiler transform that only runs inside the Next.js build.
+vi.mock("./fonts", () => ({ fontVariables: "font-vars" }));
+
 // The layout reads the validated env at import time, so stub it first.
 async function loadLayout() {
   vi.resetModules();

@@ -32,6 +32,11 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test
       - run: pnpm build
+      # /styleguide must not exist in production (spec 0002, AC-11).
+      - name: Styleguide is hidden in production builds
+        run: |
+          VERCEL_ENV=production pnpm build
+          node scripts/check-styleguide-gate.mjs
 
   e2e:
     name: Playwright e2e

@@ -1,12 +1,57 @@
 @import "tailwindcss";
 
-/* Design tokens (type, spacing, color scale) arrive with feature 3. */
+/*
+ * Atticus design tokens. Every value lives here once (spec 0002, docs/design.md).
+ * The only mirror is src/lib/motion.ts, which a test keeps in sync.
+ * Keep this the first @theme block: parseColorTokens reads its colors.
+ */
+@theme {
+  --color-*: initial;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-gray: #888888;
+  --color-muted: #777777;
+  --color-amber: #ffb000;
+  --color-field-line: #666666;
+  --color-hairline: #262626;
+  --color-surface: #0a0a0a;
+}
 
-html {
-  background: #000000;
-  color: #ffffff;
-  color-scheme: dark;
-  scroll-behavior: smooth;
+@theme inline {
+  --font-sans: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-mono--font-feature-settings: "tnum";
+}
+
+@layer base {
+  html {
+    background-color: var(--color-black);
+    color: var(--color-gray);
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-black);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background-color: var(--color-white);
+    color: var(--color-black);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-amber);
+    outline-offset: 4px;
+    border-radius: 0;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
