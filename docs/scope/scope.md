@@ -50,13 +50,13 @@ The visual language every section depends on: color tokens, the geometric typefa
 - [x] Design it (spec): `/architect design system & motion foundation`
 - [ ] Build it: `/develop design system & motion foundation`
   - [ ] Thin thread live on a preview: fonts, color tokens, base styles, `/styleguide` with its production 404 gate (AC-1, AC-2, AC-11, AC-13)
-  - [ ] Type, spacing, and layout primitives with the contrast and motion mirror tests (AC-1, AC-3, AC-10)
-  - [ ] Motion system: `MotionProvider`, `Reveal`, `RevealGroup`, `RevealWords`, reduced motion, no JavaScript fallback (AC-4, AC-5, AC-6)
-  - [ ] Interactive and status primitives: `ActionLink`, `Button`, `TextField`, `StatusIndicator` (AC-5, AC-7, AC-8, AC-9)
-  - [ ] Full `/styleguide`, e2e and axe coverage, and `docs/design.md` (AC-11, AC-12)
+  - [x] Type, spacing, and layout primitives with the contrast and motion mirror tests (AC-1, AC-3, AC-10)
+  - [x] Motion system: `MotionProvider`, `Reveal`, `RevealGroup`, `RevealWords`, reduced motion, no JavaScript fallback (AC-4, AC-5, AC-6)
+  - [x] Interactive and status primitives: `ActionLink`, `Button`, `TextField`, `StatusIndicator` (AC-5, AC-7, AC-8, AC-9)
+  - [x] Full `/styleguide`, e2e and axe coverage, and `docs/design.md` (AC-11, AC-12)
 - [ ] Verify it: `/check verify design system & motion foundation`
 - [ ] Test it: `/test design system & motion foundation`
-Spec [0002](../specs/0002-design-system-motion/index.md) · code in `src/`
+Spec [0002](../specs/0002-design-system-motion/index.md) · code in `src/components/ui/`, `src/app/styleguide/`, `src/app/globals.css` · reference in `docs/design.md`
 
 ## Slice 1: Hero, deployed (the first real thread)
 
