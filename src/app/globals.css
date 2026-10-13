@@ -122,6 +122,63 @@
   :focus:not(:focus-visible) {
     outline: none;
   }
+
+  /* Keep autofilled fields black with white text. The inset shadow is the one
+     shadow the design allows. */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-white);
+    caret-color: var(--color-amber);
+    box-shadow: 0 0 0 1000px var(--color-black) inset;
+  }
+}
+
+/*
+ * Letter roll for ActionLink and Button (markup from SplitLetters). Each letter
+ * slides up out of its clip box while a copy (::after) rises from below.
+ * Hover capable pointers only, and never under reduced motion.
+ */
+@layer components {
+  .letter-roll-clip {
+    display: inline-block;
+    overflow: hidden;
+    white-space: pre;
+  }
+
+  .letter-roll-char {
+    display: inline-block;
+    position: relative;
+  }
+
+  .letter-roll-char::after {
+    content: attr(data-char);
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .letter-roll-char {
+      transition: transform var(--duration-roll) var(--ease-out-strong);
+      transition-delay: calc(var(--i) * var(--stagger-letters));
+    }
+
+    .letter-roll-arrow {
+      transition: transform var(--duration-roll) var(--ease-out-strong);
+    }
+
+    .letter-roll:not([data-disabled]):is(:hover, :focus-visible) .letter-roll-char {
+      transform: translateY(-100%);
+    }
+
+    .letter-roll:not([data-disabled]):is(:hover, :focus-visible) .letter-roll-arrow {
+      transform: translateX(0.25rem);
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
