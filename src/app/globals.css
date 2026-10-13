@@ -15,6 +15,70 @@
   --color-field-line: #666666;
   --color-hairline: #262626;
   --color-surface: #0a0a0a;
+
+  /* Fluid type, 375px to 1440px viewport. */
+  --text-display: clamp(2.5rem, 1.27rem + 5.26vw, 6rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.035em;
+  --text-display--font-weight: 500;
+  --text-h1: clamp(2rem, 1.3rem + 3vw, 4rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h1--font-weight: 500;
+  --text-h2: clamp(1.5rem, 1.15rem + 1.5vw, 2.5rem);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h2--font-weight: 500;
+  --text-h3: clamp(1.25rem, 1.07rem + 0.75vw, 1.75rem);
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.01em;
+  --text-h3--font-weight: 500;
+  --text-body-lg: clamp(1.125rem, 1.08rem + 0.19vw, 1.25rem);
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--letter-spacing: 0;
+  --text-body-lg--font-weight: 400;
+  --text-body: clamp(1rem, 0.96rem + 0.19vw, 1.125rem);
+  --text-body--line-height: 1.6;
+  --text-body--letter-spacing: 0;
+  --text-body--font-weight: 400;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+  --text-small--letter-spacing: 0;
+  --text-small--font-weight: 400;
+  --text-label: clamp(0.75rem, 0.73rem + 0.09vw, 0.8125rem);
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.08em;
+  --text-label--font-weight: 400;
+
+  /* Layout. Content width includes the gutters. */
+  --container-content: 80rem;
+  --container-prose: 40rem;
+  --spacing-gutter: clamp(1.5rem, 0.97rem + 2.25vw, 3rem);
+  --spacing-section: clamp(6rem, 3.89rem + 9.01vw, 12rem);
+  --spacing-anchor: 6rem;
+
+  /* Motion. Mirrored in src/lib/motion.ts. */
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --animate-status-pulse: status-pulse var(--duration-pulse) var(--ease-out-strong) infinite;
+
+  @keyframes status-pulse {
+    from {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    to {
+      transform: scale(2.5);
+      opacity: 0;
+    }
+  }
+}
+
+/* Tailwind has no duration namespace, so these stay plain custom properties. */
+:root {
+  --duration-fast: 150ms;
+  --duration-roll: 250ms;
+  --duration-pulse: 2400ms;
+  --stagger-letters: 10ms;
 }
 
 @theme inline {
@@ -34,8 +98,14 @@
   }
 
   body {
-    background-color: var(--color-black);
-    font-family: var(--font-sans);
+    @apply bg-black font-sans text-body text-gray;
+  }
+
+  h1,
+  h2,
+  h3 {
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 
   ::selection {

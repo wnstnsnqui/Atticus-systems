@@ -18,6 +18,8 @@
     "prepare": "lefthook install"
   },
   "dependencies": {
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
     "geist": "1.7.2",
     "next": "16.4.0",
     "react": "19.3.0",

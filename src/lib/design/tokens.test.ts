@@ -30,6 +30,19 @@ describe("parseColorTokens", () => {
     expect(parseColorTokens(css)).toEqual([{ name: "white", value: "#FFFFFF" }]);
   });
 
+  it("keeps reading past nested blocks such as @keyframes", () => {
+    const css = `
+      @theme {
+        --color-black: #000000;
+        @keyframes pulse { from { opacity: 1; } to { opacity: 0; } }
+        --color-amber: #ffb000;
+      }
+      @theme { --color-later: #abcdef; }
+    `;
+
+    expect(parseColorTokens(css).map(({ name }) => name)).toEqual(["black", "amber"]);
+  });
+
   it("returns an empty list when there is no @theme block", () => {
     expect(parseColorTokens("body { color: red; }")).toEqual([]);
   });
