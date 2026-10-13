@@ -15,7 +15,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 |---|---------|-------|--------|
 | 1 | Stack & architecture | Foundation | in-progress |
 | 2 | Coding standards & tooling | Foundation | done |
-| 3 | Design system & motion foundation | Foundation | planned |
+| 3 | Design system & motion foundation | Foundation | in-progress |
 | 4 | Hero & navigation | Slice 1 | planned |
 | 5 | Connect section & inquiry delivery | Slice 2 | planned |
 | 6 | Services grid | Slice 3 | planned |
@@ -44,10 +44,19 @@ Capture conventions, then install lint, format, type strictness, and pre-commit 
 - [x] Install the chosen tooling: `/develop tooling`
 No spec (conventions in root `AGENTS.md`) · code in `eslint.config.mjs`, `.prettierrc.json`, `lefthook.yml`, `.github/workflows/ci.yml`
 
-### 3. Design system & motion foundation · needs a decision
+### 3. Design system & motion foundation · in-progress
 The visual language every section depends on: color tokens, the geometric typeface, type and spacing scales, the UI library choice, and one shared scroll reveal pattern with reduced motion support.
 **Done when:** `design.md` covers tokens, type, spacing, and motion rules (durations, easing, reduced motion), base primitives exist, and every text color meets WCAG AA contrast on black.
-- [ ] Design it (spec): `/architect design system & motion foundation`
+- [x] Design it (spec): `/architect design system & motion foundation`
+- [ ] Build it: `/develop design system & motion foundation`
+  - [ ] Thin thread live on a preview: fonts, color tokens, base styles, `/styleguide` with its production 404 gate (AC-1, AC-2, AC-11, AC-13)
+  - [ ] Type, spacing, and layout primitives with the contrast and motion mirror tests (AC-1, AC-3, AC-10)
+  - [ ] Motion system: `MotionProvider`, `Reveal`, `RevealGroup`, `RevealWords`, reduced motion, no JavaScript fallback (AC-4, AC-5, AC-6)
+  - [ ] Interactive and status primitives: `ActionLink`, `Button`, `TextField`, `StatusIndicator` (AC-5, AC-7, AC-8, AC-9)
+  - [ ] Full `/styleguide`, e2e and axe coverage, and `docs/design.md` (AC-11, AC-12)
+- [ ] Verify it: `/check verify design system & motion foundation`
+- [ ] Test it: `/test design system & motion foundation`
+Spec [0002](../specs/0002-design-system-motion/index.md) · code in `src/`
 
 ## Slice 1: Hero, deployed (the first real thread)
 

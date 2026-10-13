@@ -25,6 +25,12 @@
       "skillPath": "skills/audit/SKILL.md",
       "computedHash": "a8d524118ce6d60911840ef31509f1f5551ce1099cb8fd8a241ed0859e5c62ed"
     },
+    "base-ui-react": {
+      "source": "secondsky/claude-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/base-ui-react/skills/base-ui-react/SKILL.md",
+      "computedHash": "efc8a1836cdc06d9c75d612640b270af12f9e89623af09ea7c5b1bba1383949d"
+    },
     "check": {
       "source": "jsmastery-pro/skills",
       "sourceType": "github",
@@ -78,6 +84,12 @@
       "sourceType": "github",
       "skillPath": "skills/improve-animations/SKILL.md",
       "computedHash": "524ea241e41d58bbdd8e288700fe24f5725e2a2f3ae7186ad7cebf9055058356"
+    },
+    "mui-base": {
+      "source": "pproenca/dot-skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/mui-base/SKILL.md",
+      "computedHash": "d83296f3b8870417f74de3c63c163508decee3bbb6270a1e251e5bad90f76900"
     },
     "next-cache-components-adoption": {
       "source": "vercel/next.js",
@@ -156,6 +168,12 @@
       "sourceType": "github",
       "skillPath": "skills/vitest/SKILL.md",
       "computedHash": "21af2b13d47d31f3094b61c0f41abc8d6a7eed0df3c9a4029ea671f6978b7209"
+    },
+    "web-styling-cva": {
+      "source": "agents-inc/skills",
+      "sourceType": "github",
+      "skillPath": "src/skills/web-styling-cva/SKILL.md",
+      "computedHash": "1be7af6fb7fcebea21b80c059626ef8d540ea193823f785399326ec883eca2f3"
     },
     "webapp-testing": {
       "source": "anthropics/skills",
