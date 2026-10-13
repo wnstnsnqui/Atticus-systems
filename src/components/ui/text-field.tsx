@@ -1,6 +1,7 @@
 "use client";
 
 import { Field } from "@base-ui/react/field";
+import { clsx } from "clsx";
 
 type TextFieldProps = Omit<
   Field.Control.Props,
@@ -14,15 +15,16 @@ type TextFieldProps = Omit<
   readonly description?: string;
 };
 
-// The underline is the focus indicator, so the control drops the outline ring.
-// It thickens from 1px to 2px on focus while the padding gives back 1px, so
-// nothing below it moves.
+// Rounded and filled. Focus turns the border violet and adds the violet ring at
+// a 2px offset; an error keeps the border red at rest and under focus.
 const controlClassName = [
-  "block w-full rounded-none border-0 border-b border-field-line bg-transparent pt-2 pb-3",
-  "text-body-lg text-heading caret-violet",
+  "block w-full rounded-control border border-field-line bg-raised px-4",
+  "text-body text-heading caret-violet",
   "transition-colors duration-(--duration-fast) ease-out-strong",
-  "focus:border-b-2 focus:border-violet focus:pb-[calc(0.75rem-1px)] focus-visible:outline-none",
+  "not-data-invalid:focus:border-violet focus-visible:outline-offset-2",
   "data-invalid:border-red",
+  "data-disabled:cursor-not-allowed data-disabled:text-muted",
+  "forced-colors:border-[CanvasText]",
 ].join(" ");
 
 export function TextField({
@@ -39,7 +41,7 @@ export function TextField({
       <Field.Control
         {...controlProps}
         render={multiline ? <textarea rows={4} /> : undefined}
-        className={multiline ? `${controlClassName} min-h-32 resize-y` : controlClassName}
+        className={clsx(controlClassName, multiline ? "min-h-32 resize-y py-3" : "min-h-12")}
       />
       {description && (
         <Field.Description className="text-small text-muted">{description}</Field.Description>

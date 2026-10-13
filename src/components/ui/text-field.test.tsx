@@ -15,12 +15,30 @@ describe("TextField", () => {
     expect(screen.getByText("Name")).toHaveClass("mono-label");
   });
 
+  it("is a rounded filled control with a violet caret and focus border", () => {
+    render(<TextField name="name" label="Name" />);
+
+    const input = screen.getByRole("textbox", { name: "Name" });
+    expect(input).toHaveClass(
+      "min-h-12",
+      "px-4",
+      "rounded-control",
+      "bg-raised",
+      "border-field-line",
+      "text-heading",
+      "caret-violet",
+      "not-data-invalid:focus:border-violet",
+      "focus-visible:outline-offset-2",
+    );
+    expect(screen.getByText("Name")).toHaveClass("text-muted");
+  });
+
   it("renders a textarea when multiline", () => {
     render(<TextField name="scope" label="Project Scope Overview" multiline />);
 
-    expect(screen.getByRole("textbox", { name: "Project Scope Overview" }).tagName).toBe(
-      "TEXTAREA",
-    );
+    const textarea = screen.getByRole("textbox", { name: "Project Scope Overview" });
+    expect(textarea.tagName).toBe("TEXTAREA");
+    expect(textarea).toHaveClass("min-h-32", "py-3", "resize-y");
   });
 
   it("marks the control invalid and describes it with the error message", () => {
@@ -31,6 +49,7 @@ describe("TextField", () => {
     const input = screen.getByRole("textbox", { name: "Company Email" });
     expect(input).toHaveAttribute("aria-invalid", "true");
     expect(input).toHaveAccessibleDescription(/Enter a valid email/);
+    expect(input).toHaveClass("data-invalid:border-red");
     expect(screen.getByText(/ERR \/\//)).toHaveAttribute("aria-hidden", "true");
   });
 
