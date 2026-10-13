@@ -1,0 +1,15 @@
+# Git hooks, installed by `pnpm install` (the prepare script).
+pre-commit:
+  parallel: true
+  jobs:
+    - name: format
+      glob: "*.{js,mjs,cjs,ts,mts,tsx,json,css,md,yml,yaml}"
+      run: pnpm exec prettier --write --ignore-unknown {staged_files}
+      stage_fixed: true
+    - name: lint
+      glob: "*.{js,mjs,cjs,ts,mts,tsx}"
+      run: pnpm exec eslint --fix {staged_files}
+      stage_fixed: true
+    - name: typecheck
+      glob: "*.{ts,mts,tsx}"
+      run: pnpm typecheck

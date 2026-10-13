@@ -14,7 +14,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | # | Feature | Phase | Status |
 |---|---------|-------|--------|
 | 1 | Stack & architecture | Foundation | in-progress |
-| 2 | Coding standards & tooling | Foundation | planned |
+| 2 | Coding standards & tooling | Foundation | done |
 | 3 | Design system & motion foundation | Foundation | planned |
 | 4 | Hero & navigation | Slice 1 | planned |
 | 5 | Connect section & inquiry delivery | Slice 2 | planned |
@@ -37,10 +37,12 @@ Lock in everything around Next.js (rendering mode, styling approach, hosting, pr
 - [x] Smoke check it runs: `/test`
 Spec [0001](../specs/0001-stack-architecture/index.md) · code in `src/` (plus root config: `next.config.ts`, `package.json`, `tsconfig.json`)
 
-### 2. Coding standards & tooling
+### 2. Coding standards & tooling · done
 Capture conventions, then install lint, format, type strictness, and pre-commit checks from the real scaffolded project.
 **Done when:** root `AGENTS.md` reflects the real stack, and lint, format, and pre-commit run clean.
-- [ ] Capture conventions + tooling choices: `/audit`
+- [x] Capture conventions + tooling choices: `/audit`
+- [x] Install the chosen tooling: `/develop tooling`
+No spec (conventions in root `AGENTS.md`) · code in `eslint.config.mjs`, `.prettierrc.json`, `lefthook.yml`, `.github/workflows/ci.yml`
 
 ### 3. Design system & motion foundation · needs a decision
 The visual language every section depends on: color tokens, the geometric typeface, type and spacing scales, the UI library choice, and one shared scroll reveal pattern with reduced motion support.
