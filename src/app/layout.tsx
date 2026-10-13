@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { MotionProvider } from "@/components/ui/motion-provider";
+import { noscriptRevealStyle } from "@/components/ui/reveal-motion";
 import { env } from "@/lib/env";
 import { fontVariables } from "./fonts";
 import "./globals.css";
@@ -13,7 +15,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={fontVariables}>
-      <body>{children}</body>
+      <head>
+        <noscript>
+          <style>{noscriptRevealStyle}</style>
+        </noscript>
+      </head>
+      <body>
+        <MotionProvider>{children}</MotionProvider>
+      </body>
     </html>
   );
 }

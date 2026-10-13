@@ -27,3 +27,21 @@ describe("root layout metadata", () => {
     expect(metadata.description).toBeTruthy();
   });
 });
+
+describe("root layout markup", () => {
+  it("ships a noscript style that shows reveal content without JavaScript", async () => {
+    vi.stubEnv("NEXT_PUBLIC_SITE_URL", "https://atticus.systems");
+    const { renderToStaticMarkup } = await import("react-dom/server");
+    const { createElement } = await import("react");
+
+    const { default: RootLayout } = await loadLayout();
+    const html = renderToStaticMarkup(
+      createElement(RootLayout, { children: "page", params: Promise.resolve({}) }),
+    );
+
+    expect(html).toContain(
+      "<noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>",
+    );
+    expect(html).toContain('class="font-vars"');
+  });
+});
