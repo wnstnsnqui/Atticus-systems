@@ -7,7 +7,7 @@ describe("SectionLabel", () => {
     render(<SectionLabel index={1}>Services</SectionLabel>);
 
     const label = screen.getByText("01 // Services");
-    expect(label).toHaveClass("font-mono", "text-label", "text-gray", "uppercase");
+    expect(label).toHaveClass("mono-label", "text-muted");
   });
 
   it("zero pads single digits and leaves two digits alone", () => {

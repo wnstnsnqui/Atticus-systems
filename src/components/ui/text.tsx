@@ -10,9 +10,9 @@ export const textVariants = cva("", {
       sm: "text-small",
     },
     tone: {
-      body: "text-gray",
+      body: "text-copy",
       muted: "text-muted",
-      strong: "text-white",
+      strong: "text-heading",
     },
   },
   defaultVariants: { size: "base", tone: "body" },

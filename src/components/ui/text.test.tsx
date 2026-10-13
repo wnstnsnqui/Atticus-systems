@@ -3,12 +3,12 @@ import { describe, expect, it } from "vitest";
 import { Text } from "./text";
 
 describe("Text", () => {
-  it("defaults to a gray body paragraph", () => {
+  it("defaults to a body copy paragraph", () => {
     render(<Text>Body copy</Text>);
 
     const text = screen.getByText("Body copy");
     expect(text.tagName).toBe("P");
-    expect(text).toHaveClass("text-body", "text-gray");
+    expect(text).toHaveClass("text-body", "text-copy");
   });
 
   it.each([
@@ -22,7 +22,7 @@ describe("Text", () => {
 
   it.each([
     ["muted", "text-muted"],
-    ["strong", "text-white"],
+    ["strong", "text-heading"],
   ] as const)("tone %s uses %s", (tone, className) => {
     render(<Text tone={tone}>Toned</Text>);
 

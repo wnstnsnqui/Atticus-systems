@@ -12,6 +12,7 @@ export const duration = {
   fast: 150,
   roll: 250,
   reveal: 600,
+  glow: 1200,
   pulse: 2400,
 } as const;
 

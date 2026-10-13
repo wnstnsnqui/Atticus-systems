@@ -9,7 +9,7 @@ describe("StatusIndicator", () => {
     expect(screen.getByText("Pipeline Active // 2026")).toBeInTheDocument();
 
     const dot = container.querySelector('[aria-hidden="true"]');
-    expect(dot).toHaveClass("size-2", "bg-amber", "after:animate-status-pulse");
+    expect(dot).toHaveClass("size-2", "bg-green", "after:animate-status-pulse");
     expect(dot).toHaveClass("motion-reduce:after:hidden");
   });
 });

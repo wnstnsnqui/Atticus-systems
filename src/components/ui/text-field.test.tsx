@@ -12,7 +12,7 @@ describe("TextField", () => {
     expect(input).toHaveAttribute("name", "name");
     expect(input).not.toHaveAttribute("placeholder");
     expect(input).not.toHaveAttribute("aria-invalid");
-    expect(screen.getByText("Name")).toHaveClass("font-mono", "uppercase");
+    expect(screen.getByText("Name")).toHaveClass("mono-label");
   });
 
   it("renders a textarea when multiline", () => {

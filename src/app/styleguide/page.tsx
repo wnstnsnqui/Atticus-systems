@@ -5,8 +5,10 @@ import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { ActionLink } from "@/components/ui/action-link";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 import { Divider } from "@/components/ui/divider";
+import { Glow } from "@/components/ui/glow";
 import { Heading, headingVariants, type HeadingSize } from "@/components/ui/heading";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealGroup } from "@/components/ui/reveal-group";
@@ -35,14 +37,28 @@ const colorTokens = () =>
   parseColorTokens(readFileSync(join(process.cwd(), "src/app/globals.css"), "utf8"));
 
 const colorUse: Readonly<Record<string, string>> = {
-  black: "Page background, text on selection",
-  white: "Headings, input text, selection",
-  gray: "Body copy, section and field labels",
-  muted: "Meta lines, field descriptions",
-  amber: "Interactive and status elements only",
-  "field-line": "Text field underline at rest",
-  hairline: "Dividers between portfolio rows",
-  surface: "Media placeholders only",
+  void: "Hero background only",
+  base: "Page and every non hero section",
+  raised: "Cards, fields, secondary buttons",
+  overlay: "Chips, window dots, hover fill",
+  hairline: "Divider line",
+  border: "Card and primary button edge",
+  dot: "Dot texture",
+  "field-line": "Field and secondary button border",
+  muted: "Labels, meta lines, status text",
+  copy: "Body copy, chip and terminal text",
+  heading: "Headings, input text",
+  violet: "Links, focus ring, caret, selection",
+  "violet-hover": "Link hover",
+  "violet-deep": "Arrow on the primary button",
+  button: "Primary button fill",
+  "button-hover": "Primary button hover fill",
+  ink: "Text on light fills",
+  green: "Status dot and halo only",
+  red: "Field errors only",
+  "glow-violet": "Glows and hover halos",
+  "glow-blue": "Glows",
+  "glow-cyan": "Glows",
 };
 
 const typeSteps: readonly {
@@ -114,7 +130,7 @@ function SectionHeader({ index, id, title }: { index: number; id: string; title:
 function Specimen({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex flex-col gap-4">
-      <p className="font-mono text-label text-muted uppercase">{label}</p>
+      <p className="mono-label text-muted">{label}</p>
       {children}
     </div>
   );
@@ -127,8 +143,8 @@ export default function StyleguidePage() {
     <>
       <header>
         <Container className="flex flex-wrap items-center justify-between gap-x-8 gap-y-2 py-6">
-          <p className="text-h3 text-white">
-            atticus <span className="text-gray">/ styleguide</span>
+          <p className="text-h3 text-heading">
+            atticus <span className="text-muted">/ styleguide</span>
           </p>
           <nav aria-label="Styleguide sections">
             <ul className="flex flex-wrap gap-x-6">
@@ -143,17 +159,36 @@ export default function StyleguidePage() {
       </header>
 
       <main>
-        <Container className="flex flex-col gap-8 pt-24 pb-16 sm:pt-32">
-          <StatusIndicator>Preview build // Not served in production</StatusIndicator>
-          <Heading level={1} size="display">
-            The Atticus design system
-          </Heading>
-          <Text size="lg" className="max-w-prose">
-            Tokens, type, spacing, motion, and the primitives every section is built from. Pure
-            black, white headings, gray body, and amber only where you can act or where something is
-            live.
-          </Text>
-        </Container>
+        <Section
+          id="intro"
+          labelledBy="intro-title"
+          tone="void"
+          decor={<Glow hue="violet-blue" position="top" size="lg" reveal={false} />}
+        >
+          <Container className="grid items-end gap-12 lg:grid-cols-[1fr_24rem]">
+            <div className="flex flex-col gap-8">
+              <StatusIndicator>Preview build // Not served in production</StatusIndicator>
+              <Heading level={1} size="display" id="intro-title">
+                The Atticus design system
+              </Heading>
+              <Text size="lg" className="max-w-prose">
+                Tokens, surfaces, type, motion, and the primitives every section is built from. A
+                pure black void for the hero, violet obsidian below it, and violet only where you
+                can act.
+              </Text>
+              <div>
+                <Button arrow>Start a Project</Button>
+              </div>
+            </div>
+            <Card>
+              <div className="flex flex-col gap-3">
+                <p className="mono-label text-muted">Raised surface</p>
+                <Text tone="strong">Cards cover the dot texture with a solid fill.</Text>
+                <Text size="sm">Rounded 24px, a 1px border edge, and no shadow.</Text>
+              </div>
+            </Card>
+          </Container>
+        </Section>
 
         <Section id="color" labelledBy="color-title">
           <Container className="flex flex-col gap-16">
@@ -165,13 +200,13 @@ export default function StyleguidePage() {
               {colorTokens().map(({ name, value }) => (
                 <RevealItem as="li" key={name} className="flex flex-col gap-4">
                   <div
-                    className="aspect-[4/3] w-full border border-hairline"
+                    className="aspect-[4/3] w-full rounded-control border border-border"
                     style={{ backgroundColor: value }}
                   />
                   <div className="flex flex-col gap-1">
-                    <p className="text-body text-white">{name}</p>
-                    <p className="font-mono text-label text-gray">
-                      {value} · {contrastRatio(value, "#000000").toFixed(2)}:1
+                    <p className="text-body text-heading">{name}</p>
+                    <p className="font-mono text-label text-muted">
+                      {value} · {contrastRatio(value, "#0E0D12").toFixed(2)}:1
                     </p>
                     <Text size="sm" tone="muted">
                       {colorUse[name]}
@@ -190,7 +225,7 @@ export default function StyleguidePage() {
               {typeSteps.map(({ token, range, sample, heading, text }) => (
                 <li key={token}>
                   <Reveal className="grid gap-4 md:grid-cols-[12rem_1fr] md:gap-8">
-                    <p className="font-mono text-label text-gray uppercase">
+                    <p className="mono-label text-muted">
                       text-{token} <span className="text-muted">· {range}</span>
                     </p>
                     {heading ? (
@@ -203,7 +238,7 @@ export default function StyleguidePage() {
               ))}
               <li>
                 <Reveal className="grid gap-4 md:grid-cols-[12rem_1fr] md:gap-8">
-                  <p className="font-mono text-label text-gray uppercase">
+                  <p className="mono-label text-muted">
                     text-label <span className="text-muted">· 12 → 13px</span>
                   </p>
                   <SectionLabel index={1}>Services</SectionLabel>
@@ -219,8 +254,8 @@ export default function StyleguidePage() {
             <dl className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
               {spacingTokens.map(({ token, value, use }) => (
                 <div key={token} className="flex flex-col gap-2">
-                  <dt className="font-mono text-label text-white">{token}</dt>
-                  <dd className="text-h3 text-white">{value}</dd>
+                  <dt className="font-mono text-label text-heading">{token}</dt>
+                  <dd className="text-h3 text-heading">{value}</dd>
                   <dd>
                     <Text size="sm" tone="muted" as="span">
                       {use}
@@ -257,7 +292,7 @@ export default function StyleguidePage() {
                     <Text tone="strong" as="span">
                       {name}
                     </Text>
-                    <span className="font-mono text-label text-gray">{value}</span>
+                    <span className="font-mono text-label text-muted">{value}</span>
                   </RevealItem>
                 ))}
               </RevealGroup>

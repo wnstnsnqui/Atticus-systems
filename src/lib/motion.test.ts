@@ -23,6 +23,8 @@ describe("CSS mirror in globals.css", () => {
   it.each([
     ["--duration-fast", duration.fast],
     ["--duration-roll", duration.roll],
+    ["--duration-reveal", duration.reveal],
+    ["--duration-glow", duration.glow],
     ["--duration-pulse", duration.pulse],
     ["--stagger-letters", stagger.letters],
   ])("%s equals the motion.ts value", (property, ms) => {

@@ -19,10 +19,10 @@ type TextFieldProps = Omit<
 // nothing below it moves.
 const controlClassName = [
   "block w-full rounded-none border-0 border-b border-field-line bg-transparent pt-2 pb-3",
-  "text-body-lg text-white caret-amber",
+  "text-body-lg text-heading caret-violet",
   "transition-colors duration-(--duration-fast) ease-out-strong",
-  "focus:border-b-2 focus:border-amber focus:pb-[calc(0.75rem-1px)] focus-visible:outline-none",
-  "data-invalid:border-amber",
+  "focus:border-b-2 focus:border-violet focus:pb-[calc(0.75rem-1px)] focus-visible:outline-none",
+  "data-invalid:border-red",
 ].join(" ");
 
 export function TextField({
@@ -35,7 +35,7 @@ export function TextField({
 }: TextFieldProps) {
   return (
     <Field.Root name={name} invalid={Boolean(error)} className="flex flex-col gap-2">
-      <Field.Label className="font-mono text-label text-gray uppercase">{label}</Field.Label>
+      <Field.Label className="mono-label text-muted">{label}</Field.Label>
       <Field.Control
         {...controlProps}
         render={multiline ? <textarea rows={4} /> : undefined}
@@ -44,7 +44,7 @@ export function TextField({
       {description && (
         <Field.Description className="text-small text-muted">{description}</Field.Description>
       )}
-      <Field.Error match={Boolean(error)} className="mt-1 font-mono text-label text-amber">
+      <Field.Error match={Boolean(error)} className="mt-1 font-mono text-label text-red">
         <span aria-hidden="true">ERR {"//"} </span>
         <span className="sr-only">Error: </span>
         {error}

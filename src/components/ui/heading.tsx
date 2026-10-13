@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 export type HeadingLevel = 1 | 2 | 3;
 export type HeadingSize = "display" | "h1" | "h2" | "h3";
 
-export const headingVariants = cva("text-white", {
+export const headingVariants = cva("text-heading", {
   variants: {
     size: {
       display: "text-display",

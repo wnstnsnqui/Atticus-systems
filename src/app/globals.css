@@ -6,15 +6,30 @@
  * Keep this the first @theme block: parseColorTokens reads its colors.
  */
 @theme {
+  /* Surfaces, then lines, then text, then solid fills (Geist step roles). */
   --color-*: initial;
-  --color-black: #000000;
-  --color-white: #ffffff;
-  --color-gray: #888888;
-  --color-muted: #777777;
-  --color-amber: #ffb000;
-  --color-field-line: #666666;
-  --color-hairline: #262626;
-  --color-surface: #0a0a0a;
+  --color-void: #000000;
+  --color-base: #0e0d12;
+  --color-raised: #15141b;
+  --color-overlay: #1c1b24;
+  --color-hairline: #24222e;
+  --color-border: #2a2836;
+  --color-dot: #262433;
+  --color-field-line: #6e6994;
+  --color-muted: #8c89a6;
+  --color-copy: #b2afca;
+  --color-heading: #f6f6f9;
+  --color-violet: #a99bff;
+  --color-violet-hover: #c4baff;
+  --color-violet-deep: #5b4bdb;
+  --color-button: #d6d5e2;
+  --color-button-hover: #e6e5ef;
+  --color-ink: #0e0d12;
+  --color-green: #4ade80;
+  --color-red: #ff6b6b;
+  --color-glow-violet: #6e44ff;
+  --color-glow-blue: #3d6bff;
+  --color-glow-cyan: #38b2f8;
 
   /* Fluid type, 375px to 1440px viewport. */
   --text-display: clamp(2.5rem, 1.27rem + 5.26vw, 6rem);
@@ -56,6 +71,19 @@
   --spacing-gutter: clamp(1.5rem, 0.97rem + 2.25vw, 3rem);
   --spacing-section: clamp(6rem, 3.89rem + 9.01vw, 12rem);
   --spacing-anchor: 6rem;
+  --spacing-fade: 12.5rem;
+  --spacing-dot: 1.5rem;
+
+  /* Geist small and medium materials, plus cards. No default scale. */
+  --radius-*: initial;
+  --radius-chip: 6px;
+  --radius-control: 12px;
+  --radius-card: 24px;
+  --radius-full: 9999px;
+
+  --shadow-*: initial;
+  --shadow-control:
+    0 1px 2px rgb(0 0 0 / 0.75), 0 3px 3px rgb(0 0 0 / 0.5), 0 7px 4px rgb(0 0 0 / 0.25);
 
   /* Motion. Mirrored in src/lib/motion.ts. */
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
@@ -77,6 +105,8 @@
 :root {
   --duration-fast: 150ms;
   --duration-roll: 250ms;
+  --duration-reveal: 600ms;
+  --duration-glow: 1200ms;
   --duration-pulse: 2400ms;
   --stagger-letters: 10ms;
 }
@@ -87,10 +117,88 @@
   --font-mono--font-feature-settings: "tnum";
 }
 
+/* Every label: section labels, field labels, status text, terminal titles. */
+@utility mono-label {
+  @apply font-mono text-label uppercase;
+}
+
+/*
+ * Dot texture, top layer first: a wash of the section's own tone that fades the
+ * dots toward its center, 2px soft dots on a 24px grid, then the solid tone.
+ * Body and base sections fall back to base; [data-tone="void"] switches it.
+ */
+@utility texture-dots {
+  background:
+    radial-gradient(
+      ellipse 100% 70% at 50% 50%,
+      var(--tone, var(--color-base)) 30%,
+      transparent 100%
+    ),
+    radial-gradient(circle, var(--color-dot) 1px, transparent 1.5px) 0 0 / var(--spacing-dot)
+      var(--spacing-dot),
+    var(--tone, var(--color-base));
+
+  @media (forced-colors: active) {
+    background: Canvas;
+  }
+}
+
+/*
+ * Glow light: gradients only, never filter. The 45% strength is baked into the
+ * colors so the element's own opacity is free to fade from 0 to 1.
+ */
+@utility glow-violet {
+  background-image: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-glow-violet) 45%, transparent),
+    transparent
+  );
+}
+
+@utility glow-blue {
+  background-image: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-glow-blue) 45%, transparent),
+    transparent
+  );
+}
+
+@utility glow-cyan {
+  background-image: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-glow-cyan) 45%, transparent),
+    transparent
+  );
+}
+
+/* Two lights in one box, each 70% of it: violet at 35% 40%, blue at 65% 60%. */
+@utility glow-violet-blue {
+  background-image:
+    radial-gradient(
+      ellipse 35% 35% at 35% 40%,
+      color-mix(in srgb, var(--color-glow-violet) 45%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 35% 35% at 65% 60%,
+      color-mix(in srgb, var(--color-glow-blue) 45%, transparent),
+      transparent
+    );
+}
+
+/* Hover halo behind a Card glow or the primary Button, at 30%. */
+@utility glow-halo {
+  background-image: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-glow-violet) 30%, transparent),
+    transparent
+  );
+}
+
 @layer base {
   html {
-    background-color: var(--color-black);
-    color: var(--color-gray);
+    background-color: var(--color-base);
+    color: var(--color-copy);
     color-scheme: dark;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -98,7 +206,7 @@
   }
 
   body {
-    @apply bg-black font-sans text-body text-gray;
+    @apply bg-base font-sans text-body text-copy texture-dots;
   }
 
   h1,
@@ -109,37 +217,57 @@
   }
 
   ::selection {
-    background-color: var(--color-white);
-    color: var(--color-black);
+    background-color: var(--color-violet);
+    color: var(--color-ink);
   }
 
+  /* No radius reset, so the outline follows each element's corners. */
   :focus-visible {
-    outline: 2px solid var(--color-amber);
-    outline-offset: 4px;
-    border-radius: 0;
+    outline: 2px solid var(--color-violet);
+    outline-offset: 3px;
   }
 
   :focus:not(:focus-visible) {
     outline: none;
   }
 
-  /* Keep autofilled fields black with white text. The inset shadow is the one
-     shadow the design allows. */
+  [data-tone="void"] {
+    --tone: var(--color-void);
+  }
+
+  /* The hero void fades into base over its last 200px. Section is isolated,
+     so the glows (z-1) and content (z-10) paint above this layer. */
+  [data-tone="void"]::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: var(--spacing-fade);
+    background: linear-gradient(to bottom, transparent, var(--color-base));
+    pointer-events: none;
+
+    @media (forced-colors: active) {
+      display: none;
+    }
+  }
+
+  /* Keep autofilled fields on the raised fill with heading text. The inset
+     shadow is the only shadow outside buttons. */
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   textarea:-webkit-autofill,
   textarea:-webkit-autofill:hover,
   textarea:-webkit-autofill:focus {
-    -webkit-text-fill-color: var(--color-white);
-    caret-color: var(--color-amber);
-    box-shadow: 0 0 0 1000px var(--color-black) inset;
+    -webkit-text-fill-color: var(--color-heading);
+    caret-color: var(--color-violet);
+    box-shadow: 0 0 0 1000px var(--color-raised) inset;
   }
 }
 
 /*
- * Letter roll for ActionLink and Button (markup from SplitLetters). Each letter
- * slides up out of its clip box while a copy (::after) rises from below.
+ * Letter roll for ActionLink (markup from SplitLetters). Each letter slides up
+ * out of its clip box while a copy (::after) rises from below.
  * Hover capable pointers only, and never under reduced motion.
  */
 @layer components {

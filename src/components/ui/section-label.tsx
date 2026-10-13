@@ -9,7 +9,7 @@ export const formatSectionIndex = (index: number): string => String(index).padSt
 // read the source case instead of spelling out capitals.
 export function SectionLabel({ index, children }: SectionLabelProps) {
   return (
-    <p className="font-mono text-label text-gray uppercase">
+    <p className="mono-label text-muted">
       {formatSectionIndex(index)} {"//"} {children}
     </p>
   );

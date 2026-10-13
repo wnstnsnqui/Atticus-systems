@@ -7,7 +7,7 @@ describe("Heading", () => {
     render(<Heading level={level}>Title</Heading>);
 
     const heading = screen.getByRole("heading", { level, name: "Title" });
-    expect(heading).toHaveClass(`text-h${level}`, "text-white");
+    expect(heading).toHaveClass(`text-h${level}`, "text-heading");
   });
 
   it("keeps the semantic level when the visual size changes", () => {

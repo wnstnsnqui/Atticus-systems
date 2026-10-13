@@ -12,7 +12,7 @@ describe("ActionLink", () => {
 
     const link = screen.getByRole("link", { name: "Initialize Pipeline" });
     expect(link).toHaveAttribute("href", "#connect");
-    expect(link).toHaveClass("letter-roll", "text-amber");
+    expect(link).toHaveClass("letter-roll", "text-violet", "hover:text-violet-hover");
     expect(link).toHaveTextContent("→");
     expect(link).not.toHaveAttribute("target");
   });

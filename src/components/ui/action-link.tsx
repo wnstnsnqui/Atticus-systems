@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { SplitLetters } from "./split-letters";
 
-// Shared with Button so links and buttons read as one family.
-export const actionClassName =
-  "letter-roll inline-flex items-center gap-2 py-2 text-body font-medium text-amber";
+const actionClassName =
+  "letter-roll inline-flex items-center gap-2 py-2 text-body font-medium text-violet transition-colors duration-(--duration-fast) ease-out-strong hover:text-violet-hover";
 
 type ActionLinkProps = {
   readonly href: string;
@@ -12,7 +11,7 @@ type ActionLinkProps = {
   readonly external?: boolean;
 };
 
-export function ActionArrow() {
+function ActionArrow() {
   return (
     <span aria-hidden="true" className="letter-roll-arrow inline-block">
       →
