@@ -1,0 +1,17 @@
+pnpm-lock.yaml
+.next/
+out/
+build/
+coverage/
+playwright-report/
+test-results/
+next-env.d.ts
+tsconfig.tsbuildinfo
+# Written by `next dev`, keep it byte for byte.
+AGENTS.md
+# Installed Agent Skills (third party) and their lockfile.
+.agents/
+.claude/
+skills-lock.json
+# Workflow docs, edited line by line by the workflow skills.
+docs/
