@@ -49,11 +49,10 @@ The visual language every section depends on: color tokens, the geometric typefa
 **Done when:** `design.md` covers tokens, type, spacing, and motion rules (durations, easing, reduced motion), base primitives exist, and every text color meets WCAG AA contrast on black.
 - [x] Design it (spec): `/architect design system & motion foundation`
 - [ ] Build it: `/develop design system & motion foundation`
-  - [ ] Thin thread live on a preview: fonts, color tokens, base styles, `/styleguide` with its production 404 gate (AC-1, AC-2, AC-11, AC-13)
-  - [x] Type, spacing, and layout primitives with the contrast and motion mirror tests (AC-1, AC-3, AC-10)
-  - [x] Motion system: `MotionProvider`, `Reveal`, `RevealGroup`, `RevealWords`, reduced motion, no JavaScript fallback (AC-4, AC-5, AC-6)
-  - [x] Interactive and status primitives: `ActionLink`, `Button`, `TextField`, `StatusIndicator` (AC-5, AC-7, AC-8, AC-9)
-  - [x] Full `/styleguide`, e2e and axe coverage, and `docs/design.md` (AC-11, AC-12)
+  - [x] First version (amber on pure black) built and verified locally; fonts, motion system, and `/styleguide` gate carry over to the revision
+  - [ ] Thin thread of the violet obsidian look live on a preview: new tokens and contrast matrix, surfaces and dot texture, `Glow`, `Card`, primary `Button` (AC-1, AC-3, AC-7, AC-8, AC-11, AC-12, AC-13, AC-14, AC-16)
+  - [ ] Full component layer: secondary `Button`, `TextField`, `StatusIndicator`, labels, `Divider`, `TerminalCard`, `Chip`, `Card glow`, violet `ActionLink`, reduced motion and no JavaScript for the new motion (AC-5, AC-6, AC-7, AC-8, AC-9, AC-10, AC-13)
+  - [ ] Full `/styleguide`, unit and e2e coverage, `docs/design.md`, regenerated `verify.md` (AC-2 to AC-16)
 - [ ] Verify it: `/check verify design system & motion foundation`
 - [ ] Test it: `/test design system & motion foundation`
 Spec [0002](../specs/0002-design-system-motion/index.md) · code in `src/components/ui/`, `src/app/styleguide/`, `src/app/globals.css` · reference in `docs/design.md`

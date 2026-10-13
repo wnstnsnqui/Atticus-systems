@@ -6,9 +6,11 @@ Decision record for [index.md](index.md). `/develop` builds from `index.md`. Thi
 
 Atticus is a single page, prerendered marketing site (spec 0001). Every section after this one (hero, connect, services, infrastructure, portfolio, footer, legal pages) needs the same colors, typefaces, spacing, interactive states, and scroll motion. Without a shared foundation, each section would invent its own values. On a design this restrained (black, white, one gray, one accent), small inconsistencies in tracking, spacing, or easing are exactly what makes a minimal site look unfinished instead of premium.
 
-The scope fixes the palette and the tone: pure black, white headings, `#888888` body copy, Electric Amber `#FFB000` only for interactive and status elements, one sharp geometric sans, generous whitespace, no boxes or heavy borders, no gradients, and smooth transitions on scroll. You chose colejames.io as the reference for everything the scope leaves open. That site uses large headings with tight tracking, uppercase mono labels, 1px dividers, split text heading reveals, a letter stagger on button hover, and color transitions on links. It also uses purple tinted near black, glow blobs, bordered cards, GSAP, and Lenis, and has no reduced motion handling or focus styles. So the reference sets the feel, and the scope plus the accessibility baseline set the limits.
+The first version followed the scope's fixed palette: pure black, white headings, `#888888` body copy, Electric Amber `#FFB000` only for interactive and status elements, no boxes, no gradients. Built and verified, it read as too flat. You asked to revise it: base the system on Vercel's Geist, keep pure black only for a striking hero void, use a slightly tinted deep obsidian for the other sections and for terminal cards (depth, less eye strain, sharper type), and take the vibe of colejames.io: the textured dot background, the purple light from below, and its component style. So this revision has to add depth and decoration without losing what made the first version good: AA contrast everywhere, restraint, and a motion system that respects every visitor.
 
-The hard constraints come from spec 0001 and `AGENTS.md`. The page must stay static (`ensureStatic`), so nothing can read request data. Motion for React owns all in page motion, React View Transitions are for route changes only, and smooth scrolling is native CSS. Fonts go through `next/font` with no third party origin, so the CSP stays unchanged. And WCAG AA contrast on black, full keyboard use, a visible amber focus, and `prefers-reduced-motion` support apply to every element. One more force: content that starts hidden for a reveal must not vanish for visitors without JavaScript or delay the first paint.
+Two new forces come with the revision. Contrast now has to hold on four surfaces, not one, so a single "on black" check is no longer enough. And decoration (texture, glows, shadows) must never sit above text, never animate forever, and never cost layout shift or a new network origin.
+
+The hard constraints come from spec 0001 and `AGENTS.md`. The page must stay static (`ensureStatic`), so nothing can read request data. Motion for React owns all in page motion, React View Transitions are for route changes only, and smooth scrolling is native CSS. Fonts go through `next/font` with no third party origin, so the CSP stays unchanged. And WCAG AA contrast, full keyboard use, a visible focus, and `prefers-reduced-motion` support apply to every element. One more force: content that starts hidden for a reveal must not vanish for visitors without JavaScript or delay the first paint.
 
 ## Options considered
 
@@ -62,7 +64,48 @@ Recreate colejames.io's tooling directly.
 - Adds a second animation system next to Motion and a scroll library that spec 0001 rejected for native scrolling (Lenis changes scrolling feel and can fight assistive tech).
 - More JavaScript on a page meant to be static and fast. The reference itself ships no reduced motion handling, so none of that comes for free.
 
+## Revision options (2026-10-13)
+
+The original options below decided the stack (tokens, own primitives, Base UI, Motion) and still stand. The revision weighed how to change the look:
+
+### Revision option 1: retoken in place, Geist structure, Cole James component layer (chosen)
+
+Keep every built primitive and the motion system. Replace the palette with a violet obsidian set organized by Geist's step roles, add radius, shadow, texture, and glow tokens, restyle the controls, and add `Card`, `TerminalCard`, `Chip`, `Glow`, and a `Section` tone.
+
+**Pros**:
+- Reuses everything already built and verified (fonts, reveals, reduced motion, no JavaScript fallback, the gate, the tests).
+- Geist's step logic gives each token a clear job (surface, line, text, fill), so new sections pick by role, not by eye.
+- Matches the look you pointed at, with your own accent values tuned for contrast.
+
+**Cons**:
+- Touches almost every primitive and test, and the scope plus `AGENTS.md` rules must be rewritten to match.
+- Close to the reference's look, so Atticus needs its own details to stand apart.
+
+### Revision option 2: adopt Geist wholesale
+
+Switch to Geist Sans, Geist's own dark tokens, and Vercel style components.
+
+**Pros**:
+- One coherent, well documented system with a large following.
+
+**Cons**:
+- Geist's public pages give dark values only as `oklch` for a few steps and publish no violet scale, so the tokens would still be hand derived.
+- Reads as a Vercel clone, and you chose to keep Satoshi.
+
+### Revision option 3: copy the Cole James palette and type exactly
+
+Use `#100F15`, their grays, Manrope, and their component values as measured.
+
+**Pros**:
+- Fastest path to the exact vibe in the screenshot.
+
+**Cons**:
+- A copy of another studio's brand.
+- Their field border (`#464262`, about 2:1) and some muted text fail the contrast this project requires; they ship no focus styles and no reduced motion handling.
+
 ## Rationale
+
+_The first version's reasoning follows. Where it covers amber, underline fields, field focus, and the letter roll on buttons, the revision at the end of this section replaces it._
 
 Option 1 wins because it is the only option that fits all three forces at once: the fixed minimal palette, the stack spec 0001 already locked in, and the accessibility baseline. Tailwind tokens give one source for every value with no runtime cost. Hand built primitives match a design that is mostly typography and whitespace, where a component kit (Option 2) would mostly need its styling removed. Motion already ships with the stack, so the reveal pattern adds no new system, unlike Option 4. And Motion's `once` viewport plus `useReducedMotion` give exactly "play once, reduce to a fade" without the browser gaps of Option 3.
 
@@ -85,14 +128,60 @@ The decisions I made inside your choices, with the runner up for each:
 - **Reveal trigger `amount: "some"` with a 10% bottom margin.** A fixed share like 20% never fires for a block taller than five viewports on a small phone. Runner up: `amount: 0.2` with a rule against tall blocks.
 - **Accepted risk: failed hydration hides reveal content.** A CSS failsafe timer would cover it but adds a moving part for a rare case on a static page. It is revisited if error tracking ever shows it.
 
+**Revision (2026-10-13).** Revision option 1 wins because it changes only the layer that disappointed (color, surface, decoration, control shape) and keeps the layer that verified cleanly (motion, accessibility, the gate). Geist contributes structure rather than values: its 10 step roles (100 to 300 surfaces, 400 to 600 lines, 700 and 800 fills, 900 and 1000 text) and its radii (6px small, 12px medium, larger for cards). Cole James contributes the feel: violet obsidian, dot texture, glows, the light primary button, rounded cards, mono chips.
+
+Your picks that shaped it: keep Satoshi; violet tinted obsidian; the light button with a violet arrow; rounded filled fields in the Cole James language; a page wide dot texture faded at the center; glows at the hero edges, section corners, and behind the primary button and cards; a soft black to obsidian fade; violet and blue as the accent (replacing amber), with soft violet `#A99BFF` for interaction; lavender grays for text; green status; red errors; 24px cards; the letter roll on text links only; glows that fade in once; faded hairline dividers; primary and secondary buttons; and `Card`, `Chip`, `TerminalCard`, and the texture plus glow layer as new primitives.
+
+One of your picks departs from my first suggestion: violet and blue instead of amber. It is sound: one accent family across the glow and the controls makes the page feel whole. The cost is that amber's distinct identity is gone, and the focus ring now shares a hue with links (the outline shape carries it).
+
+The decisions I made inside your choices, with the runner up for each:
+- **Exact surface values** `#0E0D12`, `#15141B`, `#1C1B24`. A violet tint a touch darker than the reference's `#100F15`, so the void to base fade stays subtle. Runner up: your neutral `#0B0B0C` / `#121212`.
+- **Field border `#6E6994`** (3.58:1 on its fill). The reference's `#464262` is about 2:1, below the 3:1 a field boundary needs. Runner up: `#66618A` (3.17:1), too close to the line.
+- **Contrast as a matrix of pairs.** Text now sits on four surfaces, so each text token is tested on each. Runner up: test only on the lightest surface, simpler but hides a future dark on dark mistake.
+- **Texture as background layers, not a fixed overlay.** Three layers per surface (center wash, dots, tone) keep the dots below content without stacking context fights, and cards hide them simply by being solid. Runner up: one fixed full page layer, which either covers section colors or sits under them.
+- **Glows as gradients only, no `filter: blur`.** Large blurred elements are expensive to paint and composite; a `closest-side` radial gradient looks the same. Runner up: blurred shapes, closer to the reference's soft edges but slower on phones.
+- **Hero glow visible at first paint (`reveal={false}`).** The first viewport must not wait for JavaScript. Runner up: fade the hero glow too, which would delay the hero's look until hydration.
+- **Button arrow as an inline SVG.** The `↗` glyph renders differently per font and platform. Runner up: the glyph in Geist Mono.
+- **Selection in violet with ink text** (8.13:1). It ties selection to the accent. Runner up: keep white with black.
+- **Focus outline offset 3px following corner radius.** Modern browsers draw outlines along `border-radius`, so the ring matches pill and card shapes. Runner up: a `box-shadow` ring, which disappears in forced colors mode.
+- **Field error keeps the violet focus ring.** Focus should look the same everywhere; the red border and `ERR //` message carry the error. Runner up: a red focus ring on errors, which makes focus inconsistent.
+- **`Glow` fades through an IntersectionObserver and CSS, not Motion.** It needs only a one time opacity change, so a Motion component would add client JavaScript and an opacity conflict with the glow's strength. Runner up: an `m.div` like the reveals. (Raised by the cross check.)
+- **Body text color named `copy`.** `text-body` is already the body font size in Tailwind's `text-` namespace, so a `body` color would make one class set both. Runner up: keep `body` and write `text-(color:--color-body)` everywhere.
+- **Dot color `#262433`.** Text that lands on a dot pixel still passes 4.5:1 (`muted` at 4.52:1); the first pick `#2E2B3B` gave 4.09:1. Runner up: lighten `muted` instead, which would flatten the text hierarchy.
+- **Hover halos as siblings behind the surface.** A negative z layer inside an isolated card paints over the card's own fill. Runner up: a `box-shadow` glow, which cannot fade as a soft radial.
+- **At most two glows per viewport.** A usage rule, not a technical limit, to keep paint cost and visual noise down.
+
 ### Reference study: colejames.io (2026-10-13)
 
 What was taken: large headings with tight negative tracking, uppercase mono labels with positive tracking, sparing 1px dividers, word by word heading reveals, the letter stagger on CTA hover (about 10ms per letter), and quick color transitions on links.
 
-What was left out, and why:
-- Near black `#100f15` with purple tinted grays: the scope fixes pure `#000` and one gray.
-- Glow blobs and blurred decorative shapes: the scope rules out colorful graphics and gradients.
-- Bordered cards and pill buttons: the scope rules out boxes.
+What the revision now also takes (2026-10-13, measured on the live page): the violet obsidian background (`#100F15`), lavender gray body text (`#B2AFCA`), the light primary button (`#D6D5E2` fill, dark text, violet arrow, 12px radius, layered drop shadow), the dark secondary button with a 1px violet gray border, rounded cards with a faint violet edge, mono chips on a tinted fill, the dot texture, edge and corner glows in violet into cyan blue, and hairlines that fade at both ends. The site has no form fields, so fields follow its button and card language.
+
+Still left out, and why:
 - GSAP, ScrollTrigger, Lenis, split-type, jQuery: spec 0001 fixes Motion and native scrolling.
-- The nav that hides at the top and fades in: feature 4 decides it.
-- No reduced motion handling and no focus styles in the reference: these are gaps to avoid, not patterns to copy.
+- Manrope: you kept Satoshi.
+- Their exact colors where they fail contrast (the `#464262` border as a field boundary).
+- The floating pill nav and the giant footer wordmark: features 4 and 9 decide them.
+- No reduced motion handling and no focus styles in the reference: gaps to avoid, not patterns to copy.
+
+## References
+
+**Project sources**:
+- Spec 0001 (stack, CSP, static page, Motion as the motion system)
+- Root `AGENTS.md` (rules, accessibility baseline, agent skills)
+- `docs/.agent-cache/research/geist-design-system.md` (Geist research notes, 2026-10-13)
+- The verified first build of this spec on `feat/design-system-motion`
+
+**Practices & standards**:
+- WCAG 2.x contrast: 4.5:1 for text (1.4.3), 3:1 for UI component boundaries and graphics (1.4.11)
+- Geist color step roles and material radii
+- Animate only `opacity` and `transform`; avoid large `filter` effects for paint cost
+- Respect `prefers-reduced-motion`
+
+**Links** (web verified 2026-10-13):
+- Geist introduction: https://vercel.com/geist/introduction
+- Geist colors: https://vercel.com/geist/colors
+- Geist typography: https://vercel.com/geist/typography.md
+- Geist materials: https://vercel.com/geist/materials.md
+- Geist grid: https://vercel.com/geist/grid.md
+- Cole James (visual reference): https://www.colejames.io/

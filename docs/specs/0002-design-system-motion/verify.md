@@ -1,4 +1,6 @@
 # Verify: Design system & motion foundation · spec 0002 · updated 2026-10-13
+> ⚠️ Stale: these steps test the first (amber) version. Spec 0002 was revised on 2026-10-13; `/develop` regenerates this file in build plan task 9.
+
 _Steps derived from spec 0002 acceptance criteria. `/check verify` runs these; `/test` locks the durable ones._
 
 ## UI / manual
