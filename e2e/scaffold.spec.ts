@@ -30,13 +30,14 @@ test.describe("home page", () => {
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
   });
 
-  test("renders on a pure black background", async ({ page }) => {
+  // Spec 0002 moved the page from pure black to the base surface.
+  test("renders on the base background", async ({ page }) => {
     await page.goto("/");
 
     const background = await page.evaluate(
       () => getComputedStyle(document.documentElement).backgroundColor,
     );
-    expect(background).toBe("rgb(0, 0, 0)");
+    expect(background).toBe("rgb(14, 13, 18)");
   });
 
   test("has no WCAG A or AA violations", async ({ page }) => {

@@ -235,9 +235,9 @@
     --tone: var(--color-void);
   }
 
-  /* The hero void fades into base over its last 200px. Section is isolated,
+  /* A void Section fades into base over its last 200px. Section is isolated,
      so the glows (z-1) and content (z-10) paint above this layer. */
-  [data-tone="void"]::after {
+  section[data-tone="void"]::after {
     content: "";
     position: absolute;
     inset-inline: 0;
